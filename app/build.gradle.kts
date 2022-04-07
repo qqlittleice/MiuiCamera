@@ -13,8 +13,8 @@ android {
         applicationId = "com.yuk.miuicamera"
         minSdk = 29
         targetSdk = 32
-        versionCode = 4220
-        versionName = "4.2.2"
+        versionCode = 1
+        versionName = "0.1"
     }
     val properties = Properties()
     runCatching {
