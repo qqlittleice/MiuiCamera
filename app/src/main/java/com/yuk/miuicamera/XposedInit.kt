@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import com.github.kyuubiran.ezxhelper.init.EzXHelperInit
 import com.github.kyuubiran.ezxhelper.init.InitFields.appContext
+import com.yuk.miuicamera.module.InitFilm
 import com.yuk.miuicamera.module.InitVideo
 import com.yuk.miuicamera.utils.Config
 import com.yuk.miuicamera.utils.Config.TAG
@@ -45,7 +46,8 @@ class XposedInit : IXposedHookLoadPackage, IXposedHookZygoteInit {
     }
 
     private fun doHook() {
-        InitVideo().init()  // 设置设备分级等
+        InitVideo().init()  // 启用4K60Fps支持
+        InitFilm().init()  // 电影镜头支持
     }
 
     private fun checkMiuiVersion(): String {

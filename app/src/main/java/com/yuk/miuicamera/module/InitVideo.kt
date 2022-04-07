@@ -27,5 +27,5 @@ class InitVideo {
             Log.ex(e)
         }
     }
-    
+
 }
