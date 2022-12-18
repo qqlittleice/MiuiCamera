@@ -1,30 +1,34 @@
 package com.yuk.miuicamera.module
 
-import com.github.kyuubiran.ezxhelper.utils.Log
-import com.yuk.miuicamera.utils.ktx.findClass
-import com.yuk.miuicamera.utils.ktx.hookAfterMethod
-import com.yuk.miuicamera.utils.ktx.hookBeforeMethod
+import com.github.kyuubiran.ezxhelper.utils.findMethod
+import com.github.kyuubiran.ezxhelper.utils.hookAfter
+import com.github.kyuubiran.ezxhelper.utils.hookMethod
+import com.github.kyuubiran.ezxhelper.utils.hookReturnConstant
 import de.robv.android.xposed.XC_MethodHook
 
 class InitVideo {
 
     fun init() {
         try {
-            val cameraCapabilitiesClass = "com.android.camera2.CameraCapabilities".findClass()
             var hook: XC_MethodHook.Unhook? = null
-            "com.android.camera.data.data.config.ComponentConfigVideoQuality".hookBeforeMethod("initVideoMode", List::class.java, Int::class.javaPrimitiveType, Int::class.javaPrimitiveType, cameraCapabilitiesClass, Int::class.javaPrimitiveType, List::class.java
-            ) {
-                hook = "com.android.camera.CameraSettings".hookAfterMethod("isSupportFpsRange", Int::class.javaPrimitiveType, Int::class.javaPrimitiveType, Int::class.javaPrimitiveType, cameraCapabilitiesClass
-                ) {
-                    it.result = true
+            findMethod("com.android.camera.data.data.config.ComponentConfigVideoQuality") {
+                name == "initVideoMode" && parameterCount == 6
+            }.hookMethod {
+                before {
+                    hook = findMethod("com.android.camera.CameraSettings") {
+                        name == "isSupportFpsRange" && parameterCount == 4
+                    }.hookAfter { hookParam ->
+                        hookParam.result = true
+                    }
+                }
+                after {
+                    hook?.unhook()
                 }
             }
-            "com.android.camera.data.data.config.ComponentConfigVideoQuality".hookAfterMethod("initVideoMode", List::class.java, Int::class.javaPrimitiveType, Int::class.javaPrimitiveType, cameraCapabilitiesClass, Int::class.javaPrimitiveType, List::class.java
-            ) {
-                hook?.unhook()
-            }
         } catch (e: Throwable) {
-            Log.ex(e)
+            findMethod("com.android.camera.data.data.config.ComponentConfigVideoQuality") {
+                name == "isSupport60FPS" && parameterCount == 3
+            }.hookReturnConstant(true)
         }
     }
 

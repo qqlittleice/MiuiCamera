@@ -7,14 +7,13 @@ plugins {
 }
 
 android {
-    compileSdk = 32
-    buildToolsVersion = "32.0.0"
+    compileSdk = 33
     defaultConfig {
         applicationId = "com.yuk.miuicamera"
         minSdk = 29
-        targetSdk = 32
-        versionCode = 1
-        versionName = "0.1"
+        targetSdk = 33
+        versionCode = 2
+        versionName = "0.2"
     }
     val properties = Properties()
     runCatching {
@@ -79,5 +78,5 @@ android {
 
 dependencies {
     compileOnly("de.robv.android.xposed:api:82")
-    implementation("com.github.kyuubiran:EzXHelper:0.8.8")
+    implementation("com.github.kyuubiran:EzXHelper:1.0.3")
 }
